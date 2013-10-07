@@ -18,8 +18,8 @@ import android.view.MenuItem;
 public abstract class BaseFragmentActivity<T extends BaseViewModel> extends FragmentActivity {
 	private final BaseActivityAdapter<T> _adapter;
 
-	public BaseFragmentActivity(Class<T> classVm) {
-		_adapter = new BaseActivityAdapter<T>(this, classVm) {
+	public BaseFragmentActivity() {
+		_adapter = new BaseActivityAdapter<T>(this, getViewModelType()) {
 			@Override
 			protected void onBindViewModel(T vm) {
 				BaseFragmentActivity.this.onBindViewModel(vm);
@@ -32,6 +32,8 @@ public abstract class BaseFragmentActivity<T extends BaseViewModel> extends Frag
 			
 		};
 	}
+
+	protected abstract Class<T> getViewModelType();
 
     protected abstract void onBindViewModel(T vm);
 	protected abstract void onBindMenu(Map<Integer, Command> menuMap);
