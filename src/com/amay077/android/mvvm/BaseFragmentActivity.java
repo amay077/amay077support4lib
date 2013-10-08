@@ -3,12 +3,15 @@ package com.amay077.android.mvvm;
 import java.util.Map;
 
 import com.amay077.android.mvvm.CallbackStore.OnActivityResultCallback;
+
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Parcelable;
 import android.support.v4.app.FragmentActivity;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 
 /**
@@ -26,17 +29,18 @@ public abstract class BaseFragmentActivity<T extends BaseViewModel> extends Frag
 			}
 
 			@Override
-			protected void onBindViewMenu(Map<Integer, Command> menuMap) {
-				BaseFragmentActivity.this.onBindMenu(menuMap);
+			protected void onBindViewMenu(T vm, Map<Integer, Command> menuMap) {
+				BaseFragmentActivity.this.onBindMenu(vm, menuMap);
 			}
 			
 		};
 	}
 
-	protected abstract Class<T> getViewModelType();
-
     protected abstract void onBindViewModel(T vm);
-	protected abstract void onBindMenu(Map<Integer, Command> menuMap);
+	protected void onBindMenu(T vm, Map<Integer, Command> menuMap) { };
+	
+	protected abstract Class<T> getViewModelType();
+    protected int getMenuResId() { return 0; };
 
     /**
      * このアプリの Application クラスを取得する 
@@ -160,7 +164,7 @@ public abstract class BaseFragmentActivity<T extends BaseViewModel> extends Frag
 	protected void setKeepScreenOff() {
 		_adapter.setKeepScreenOff();
 	}
-
+	
     @Override
     protected void onResume() {
     	super.onResume();
@@ -180,6 +184,19 @@ public abstract class BaseFragmentActivity<T extends BaseViewModel> extends Frag
     }
     
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+    	int menuId = getMenuResId();
+    	
+    	if (menuId == 0) {
+    		return false;
+    	}
+    	
+	    MenuInflater inflater = getMenuInflater();
+	    inflater.inflate(menuId, menu);
+	    return true;
+    }
+
+	@Override
     public boolean onOptionsItemSelected(MenuItem item) {
     	if (_adapter.isBindedMenu(item)) {
         	return _adapter.onOptionsItemSelected(item);
