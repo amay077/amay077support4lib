@@ -8,6 +8,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
@@ -139,8 +140,8 @@ public abstract class BaseFragmentActivity<T extends BaseViewModel> extends Frag
 	}
 	
 	@Override
-	protected void onStart() {
-		super.onStart();
+	protected void onPostCreate(Bundle savedInstanceState) {
+		super.onPostCreate(savedInstanceState);
 		bindViewModel();
 	}
 	
