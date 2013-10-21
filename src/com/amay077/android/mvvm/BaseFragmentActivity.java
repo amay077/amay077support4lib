@@ -142,19 +142,15 @@ public abstract class BaseFragmentActivity<T extends BaseViewModel> extends Frag
 	@Override
 	protected void onPostCreate(Bundle savedInstanceState) {
 		super.onPostCreate(savedInstanceState);
-		bindViewModel();
+    	_adapter.bindViewModel();
 	}
 	
 	@Override
-	protected void onPrepareDialog(int id, Dialog dialog) {
+	protected void onPrepareDialog(int id, Dialog dialog, Bundle bundle) {
 		_adapter.onPrepareDialog(id, dialog);
-		super.onPrepareDialog(id, dialog);
+		super.onPrepareDialog(id, dialog, bundle);
 	}
 	
-    private void bindViewModel() {
-    	_adapter.bindViewModel();
-	}
-    
     protected void bindMenu(Map<Integer, Command> menuMap) {
     	_adapter.bindMenu(menuMap);
     }
